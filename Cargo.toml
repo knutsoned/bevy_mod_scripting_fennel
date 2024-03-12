@@ -8,7 +8,6 @@ name = "bevy_mod_scripting_fennel"
 path = "src/lib.rs"
 
 [dependencies]
-alea = "0.2.2"
 bevy_mod_scripting = { version = "0.5.0", features = ["lua51", "lua_script_api"] }
 bevy_mod_scripting_lua = "0.5.0"
 bevy_script_api = "0.5.0"
@@ -33,17 +32,4 @@ features = [
   "hdr",
   "multi-threaded",
   "serialize",
-]
-
-[dependencies.bevy_mod_picking]
-version = "0.18.2"
-default-features = false
-features = [
-    "backend_raycast",
-    "backend_bevy_ui",
-    "backend_sprite",
-#    "debug",
-    "selection",
-#    "highlight",
-    "backend_egui"
 ]
