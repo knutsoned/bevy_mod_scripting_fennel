@@ -24,9 +24,10 @@ impl AssetLoader for FennelLoader {
             let mut bytes = Vec::new();
             reader.read_to_end(&mut bytes).await?;
             info!("Loaded Fennel script: {:?}", bytes);
-
-            // compile the file to hand off to ScriptHost
             let code = String::from_utf8(bytes)?;
+
+            // wrap the Fennel src in the Lua to run the compiler
+            // errors will be sent up the stack when the Lua plugin processes the code
             let src = format!("return require(\"scripts/fennel\").eval([[ {} ]])", code);
 
             Ok(LuaFile {
