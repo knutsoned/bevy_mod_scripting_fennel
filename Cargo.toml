@@ -9,7 +9,7 @@ path = "src/lib.rs"
 
 [dependencies]
 anyhow = "1.0.81"
-bevy_mod_scripting = { version = "0.5.0", features = [ "luajit", "lua_script_api" ] }
+bevy_mod_scripting = { version = "0.5.0", features = ["luajit", "lua_script_api"] }
 bevy_mod_scripting_lua = "0.5.0"
 
 [dependencies.bevy]
