@@ -683,24 +683,6 @@ checksum = "e38b8b1acf791a30c01797ec9784218f726d2ba634ab7371f46de945600b7e30"
 dependencies = [
  "bevy",
  "bevy_mod_scripting_core",
- "bevy_mod_scripting_lua",
- "bevy_script_api",
-]
-
-[[package]]
-name = "bevy_mod_scripting_common"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "20dd95a77a537d10e607966999d71b952f6a707f2cf663e1f6991bd4b6ce31b8"
-dependencies = [
- "convert_case",
- "indexmap 1.9.3",
- "paste",
- "proc-macro2",
- "quote",
- "serde",
- "serde_derive",
- "syn 1.0.109",
 ]
 
 [[package]]
@@ -718,24 +700,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bevy_mod_scripting_derive"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9fd0f44edcf0bdeb6a634d36b08d1ae631fec6a6d266db9ab20c0c51d4dcf35e"
-dependencies = [
- "bevy_mod_scripting_common",
- "convert_case",
- "indexmap 1.9.3",
- "paste",
- "proc-macro2",
- "quote",
- "rustdoc-types",
- "serde",
- "serde_derive",
- "syn 1.0.109",
-]
-
-[[package]]
 name = "bevy_mod_scripting_fennel"
 version = "0.1.0"
 dependencies = [
@@ -743,7 +707,6 @@ dependencies = [
  "bevy",
  "bevy_mod_scripting",
  "bevy_mod_scripting_lua",
- "bevy_script_api",
 ]
 
 [[package]]
@@ -758,24 +721,6 @@ dependencies = [
  "parking_lot",
  "serde_json",
  "tealr",
-]
-
-[[package]]
-name = "bevy_mod_scripting_lua_derive"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f91fe0217a457931d6b2106a4e1160811e55dc5b015c88ba49a19bdee02cd83e"
-dependencies = [
- "bevy_mod_scripting_common",
- "convert_case",
- "indexmap 1.9.3",
- "paste",
- "proc-macro2",
- "quote",
- "rustdoc-types",
- "serde",
- "serde_derive",
- "syn 1.0.109",
 ]
 
 [[package]]
@@ -916,22 +861,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bevy_script_api"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ff3bd6838e774a3ba884dd04fbb19328fac8391692125cbf6fc475710de70920"
-dependencies = [
- "bevy",
- "bevy_mod_scripting_core",
- "bevy_mod_scripting_derive",
- "bevy_mod_scripting_lua",
- "bevy_mod_scripting_lua_derive",
- "parking_lot",
- "paste",
- "thiserror",
-]
-
-[[package]]
 name = "bevy_sprite"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1058,7 +987,7 @@ dependencies = [
  "ahash",
  "bevy_utils_proc_macros",
  "getrandom",
- "hashbrown 0.14.3",
+ "hashbrown",
  "nonmax",
  "petgraph",
  "smallvec",
@@ -1477,12 +1406,6 @@ checksum = "edd23e864550e6dafc1e41ac78ce4f1ccddc8672b40c403524a04ff3f0518420"
 dependencies = [
  "const_soft_float",
 ]
-
-[[package]]
-name = "convert_case"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fb4a24b1aaf0fd0ce8b45161144d6f42cd91677fd5940fd431183eb023b3a2b8"
 
 [[package]]
 name = "core-foundation"
@@ -1986,7 +1909,7 @@ checksum = "cc11df1ace8e7e564511f53af41f3e42ddc95b56fd07b3f4445d2a6048bc682c"
 dependencies = [
  "bitflags 2.4.2",
  "gpu-descriptor-types",
- "hashbrown 0.14.3",
+ "hashbrown",
 ]
 
 [[package]]
@@ -2013,12 +1936,6 @@ dependencies = [
  "euclid",
  "svg_fmt",
 ]
-
-[[package]]
-name = "hashbrown"
-version = "0.12.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8a9ee70c43aaf417c914396645a0fa852624801b24ebb7ae78fe8272889ac888"
 
 [[package]]
 name = "hashbrown"
@@ -2115,23 +2032,12 @@ dependencies = [
 
 [[package]]
 name = "indexmap"
-version = "1.9.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bd070e393353796e801d209ad339e89596eb4c8d430d18ede6a1cced8fafbd99"
-dependencies = [
- "autocfg",
- "hashbrown 0.12.3",
- "serde",
-]
-
-[[package]]
-name = "indexmap"
 version = "2.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7b0b929d511467233429c45a44ac1dcaa21ba0f5ba11e4879e6ed28ddb4f9df4"
 dependencies = [
  "equivalent",
- "hashbrown 0.14.3",
+ "hashbrown",
 ]
 
 [[package]]
@@ -2414,7 +2320,7 @@ dependencies = [
  "bitflags 2.4.2",
  "codespan-reporting",
  "hexf-parse",
- "indexmap 2.2.5",
+ "indexmap",
  "log",
  "num-traits",
  "pp-rs",
@@ -2434,7 +2340,7 @@ dependencies = [
  "bit-set",
  "codespan-reporting",
  "data-encoding",
- "indexmap 2.2.5",
+ "indexmap",
  "naga",
  "once_cell",
  "regex",
@@ -2704,7 +2610,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e1d3afd2628e69da2be385eb6f2fd57c8ac7977ceeff6dc166ff1657b0e386a9"
 dependencies = [
  "fixedbitset",
- "indexmap 2.2.5",
+ "indexmap",
 ]
 
 [[package]]
@@ -2952,15 +2858,6 @@ name = "rustc-hash"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "08d43f7aa6b08d49f382cde6a7982047c3426db949b1424bc4b7ec9ae12c6ce2"
-
-[[package]]
-name = "rustdoc-types"
-version = "0.11.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fa792ee5551052d6e577cedadec6f7eae744b26db967e8e9fb4c1b604a608c7f"
-dependencies = [
- "serde",
-]
 
 [[package]]
 name = "rustix"
@@ -3332,7 +3229,7 @@ version = "0.21.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6a8534fd7f78b5405e860340ad6575217ce99f38d4d5c8f2442cb5ecb50090e1"
 dependencies = [
- "indexmap 2.2.5",
+ "indexmap",
  "toml_datetime",
  "winnow",
 ]
@@ -3684,7 +3581,7 @@ dependencies = [
  "bitflags 2.4.2",
  "cfg_aliases",
  "codespan-reporting",
- "indexmap 2.2.5",
+ "indexmap",
  "log",
  "naga",
  "once_cell",

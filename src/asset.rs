@@ -2,27 +2,15 @@ use bevy::asset::io::Reader;
 use bevy::asset::{ AssetLoader, AsyncReadExt, BoxedFuture, LoadContext };
 use bevy::prelude::*;
 
-use bevy_mod_scripting::core::asset::CodeAsset;
+use bevy_mod_scripting_lua::assets::LuaFile;
 
 use anyhow::Error;
-
-#[derive(Asset, TypePath, Debug)]
-/// A Fennel code file in bytes
-pub struct FennelFile {
-    pub bytes: Vec<u8>,
-}
-
-impl CodeAsset for FennelFile {
-    fn bytes(&self) -> &[u8] {
-        self.bytes.as_slice()
-    }
-}
 
 #[derive(Default)]
 pub struct FennelLoader;
 
 impl AssetLoader for FennelLoader {
-    type Asset = FennelFile;
+    type Asset = LuaFile;
     type Settings = ();
     type Error = Error;
 
@@ -35,9 +23,14 @@ impl AssetLoader for FennelLoader {
         Box::pin(async move {
             let mut bytes = Vec::new();
             reader.read_to_end(&mut bytes).await?;
-            //info!("Loaded script: {:?}", bytes);
-            Ok(FennelFile {
-                bytes,
+            info!("Loaded Fennel script: {:?}", bytes);
+
+            // compile the file to hand off to ScriptHost
+            let code = String::from_utf8(bytes)?;
+            let src = format!("return require(\"scripts/fennel\").eval([[ {} ]])", code);
+
+            Ok(LuaFile {
+                bytes: src.as_bytes().into(),
             })
         })
     }

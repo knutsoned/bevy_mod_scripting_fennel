@@ -9,15 +9,12 @@ path = "src/lib.rs"
 
 [dependencies]
 anyhow = "1.0.81"
-bevy_mod_scripting = { version = "0.5.0", features = ["lua51", "lua_script_api"] }
+bevy_mod_scripting = "0.5.0"
 bevy_mod_scripting_lua = "0.5.0"
-bevy_script_api = "0.5.0"
 
 [dependencies.bevy]
 version = "0.13.0"
 default-features = false
 features = [
   "bevy_asset",
-  "bevy_core_pipeline",
-  "multi-threaded",
 ]
