@@ -1,5 +1,5 @@
-mod script;
+pub mod asset;
 
 pub mod prelude {
-    pub use crate::script::host::FennelScriptHost;
+    pub use crate::asset::FennelLoader;
 }

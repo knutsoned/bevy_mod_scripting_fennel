@@ -8,42 +8,13 @@ name = "bevy_mod_scripting_fennel"
 path = "src/lib.rs"
 
 [dependencies]
-alea = "0.2.2"
-bevy_mod_scripting = { version = "0.5.0", features = ["lua51", "lua_script_api"] }
+anyhow = "1.0.81"
+bevy_mod_scripting = { version = "0.5.0", features = ["luajit", "lua_script_api"] }
 bevy_mod_scripting_lua = "0.5.0"
-bevy_script_api = "0.5.0"
-colored = "2.1.0"
-log = "0.4.20"
-mlua = "0.9.6"
-rustyline = { version = "14.0.0", features = ["derive"] }
-thiserror = "1"
 
 [dependencies.bevy]
 version = "0.13.0"
 default-features = false
 features = [
   "bevy_asset",
-  "bevy_core_pipeline",
-  "bevy_pbr",
-  "bevy_render",
-  "bevy_sprite",
-  "bevy_winit",
-#  "dynamic_linking",
-  "file_watcher",
-  "hdr",
-  "multi-threaded",
-  "serialize",
-]
-
-[dependencies.bevy_mod_picking]
-version = "0.18.2"
-default-features = false
-features = [
-    "backend_raycast",
-    "backend_bevy_ui",
-    "backend_sprite",
-#    "debug",
-    "selection",
-#    "highlight",
-    "backend_egui"
 ]
