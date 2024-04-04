@@ -17,4 +17,19 @@ version = "0.13.0"
 default-features = false
 features = [
   "bevy_asset",
+  "file_watcher",
+  "multi-threaded",
+]
+
+[dev-dependencies]
+rand = "0.8.5"
+
+[[example]]
+name = "basic_test"
+path = "examples/basic_test.rs"
+required-features = [
+    "bevy_mod_scripting/luajit",
+    "bevy_mod_scripting/lua_script_api",
+    "bevy/file_watcher",
+    "bevy/multi-threaded",
 ]
