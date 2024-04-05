@@ -97,17 +97,18 @@ impl AssetLoader for FennelLoader {
 
             // new way:
             // use the static Lua context with Fennel already loaded to:
-            // - transpile string to string
-            // - hand off to the "regular" Lua mod system
             let script_key = format!("__FENNEL_SRC_{}", path);
 
+            // TODO: error handling so we don't just go into poison mode when there's a compile error
             lua.globals().set(script_key.clone(), code)?;
 
-            // TODO: error handling so we don't just go into poison mode when there's a compile error
+            // - send the [u8] with the source code in the globals table to the fennel compiler
             let cmd = format!("require(\"fennel\").compileString(_G[\"{script_key}\"])");
 
+            // - transpile string to string
             let lua_src = lua.load(cmd).eval::<String>().expect("error compiling Fennel to Lua");
 
+            // - hand off to the "regular" Lua mod system
             Ok(LuaFile {
                 bytes: lua_src.as_bytes().into(),
             })
