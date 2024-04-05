@@ -1,6 +1,6 @@
-use bevy::{ app::AppExit, prelude::* };
-use bevy_mod_scripting::prelude::*;
-use bevy_mod_scripting_fennel::asset::FennelLoader;
+use bevy::prelude::*;
+use bevy_mod_scripting::{ core::event::ScriptLoaded, prelude::* };
+use bevy_mod_scripting_fennel::prelude::*;
 
 // set up Lua
 fn main() -> std::io::Result<()> {
@@ -8,44 +8,39 @@ fn main() -> std::io::Result<()> {
     app.add_plugins(DefaultPlugins)
         .add_plugins(ScriptingPlugin)
         .add_script_host::<LuaScriptHost<()>>(PostUpdate)
-        .init_asset_loader::<FennelLoader>() // attach Fennel asset loader
+        .add_script_handler::<LuaScriptHost<()>, 0, 0>(PostUpdate)
+        .init_asset_loader::<FennelLoader>()
         .add_systems(Startup, load_our_script)
-        .add_systems(Update, run_our_script);
+        .add_systems(PreUpdate, check_loaded);
     app.run();
 
     Ok(())
 }
 
-// load script
+// script loading
 fn load_our_script(server: Res<AssetServer>, mut commands: Commands) {
-    let path = "scripts/basic_test.fnl";
+    info!("loading script");
+    let path = "scripts/basic_test.fnl"; // just use "scripts/" to load entire dir
     let handle = server.load::<LuaFile>(path);
-
     commands.spawn(()).insert(ScriptCollection::<LuaFile> {
-        scripts: vec![Script::<LuaFile>::new(path.to_string(), handle)],
+        scripts: vec![Script::<LuaFile>::new(path.to_owned(), handle)],
     });
 }
 
-fn run_our_script(world: &mut World) {
-    // make a unit entity to be the script target
-    let entity = world.spawn(()).id();
-
-    // run script
-    world.resource_scope(|world, mut host: Mut<LuaScriptHost<()>>| {
-        host.run_one_shot(
-            r#"
-                hello()
-            "#.as_bytes(),
-            "script.lua",
-            entity,
-            world,
+// check for ScriptLoaded event
+fn check_loaded(
+    mut reader: EventReader<ScriptLoaded>,
+    mut writer: PriorityEventWriter<LuaEvent<()>>
+) {
+    for load_event in reader.read() {
+        info!("loaded script: {:?}", load_event);
+        writer.send(
             LuaEvent {
-                hook_name: "once".to_owned(),
+                hook_name: "hello".to_owned(),
                 args: (),
-                recipients: Recipients::All,
-            }
-        ).expect("Something went wrong in the script!");
-
-        world.send_event(AppExit);
-    });
+                recipients: Recipients::ScriptID(load_event.sid),
+            },
+            0
+        );
+    }
 }
