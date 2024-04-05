@@ -2,6 +2,7 @@ use std::sync::Mutex;
 
 use bevy::asset::io::Reader;
 use bevy::asset::{ AssetLoader, AsyncReadExt, BoxedFuture, LoadContext };
+use bevy::log::info;
 
 use bevy_mod_scripting_lua::assets::LuaFile;
 
@@ -107,6 +108,7 @@ impl AssetLoader for FennelLoader {
 
             // - transpile string to string
             let lua_src = lua.load(cmd).eval::<String>().expect("error compiling Fennel to Lua");
+            info!("lua src: {}", lua_src);
 
             // - hand off to the "regular" Lua mod system
             Ok(LuaFile {
