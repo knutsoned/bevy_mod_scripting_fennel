@@ -106,7 +106,7 @@ impl AssetLoader for FennelLoader {
             let cmd = format!("require(\"fennel\").compileString(_G[\"{script_key}\"])");
 
             // - transpile string to string
-            let lua_src = lua.load(cmd).eval::<String>().expect("error compiling Fennel to Lua");
+            let lua_src = lua.load(cmd).eval::<String>()?;
             info!("lua src: {}", lua_src);
 
             // - hand off to the "regular" Lua mod system
