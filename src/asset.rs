@@ -1,4 +1,4 @@
-use std::sync::Mutex;
+use std::sync::{ Mutex, OnceLock };
 
 use bevy::asset::io::Reader;
 use bevy::asset::{ AssetLoader, AsyncReadExt, BoxedFuture, LoadContext };
@@ -6,16 +6,15 @@ use bevy::log::info;
 
 use bevy_mod_scripting_lua::assets::LuaFile;
 
-use lazy_static::lazy_static;
-
 use mlua::Lua;
 
 use crate::fennel::FENNEL;
 
 // add a static Lua context as in https://users.rust-lang.org/t/static-lua-reference/60941
 // with the Fennel compiler preloaded
-lazy_static! {
-    pub static ref COMPILER: Mutex<Lua> = {
+fn compiler() -> &'static Mutex<Lua> {
+    static COMPILER: OnceLock<Mutex<Lua>> = OnceLock::new();
+    COMPILER.get_or_init(|| {
         let temp_fn_name = "__FENNEL_COMPILER";
         let short_name = "fennel".to_owned();
         let full_name = short_name.clone() + ".lua";
@@ -68,7 +67,7 @@ print(\"...created loader for bevy asset: {full_name}\")
 
         // return a Lua context with Fennel already loaded
         lua.into()
-    };
+    })
 }
 
 #[derive(Default)]
@@ -89,7 +88,7 @@ impl AssetLoader for FennelLoader {
             let mut bytes = Vec::new();
             reader.read_to_end(&mut bytes).await?;
             let code = String::from_utf8(bytes)?;
-            let lua = COMPILER.lock().expect("bad lua state");
+            let lua = compiler().lock().expect("bad lua state");
             let path = load_context.path().to_str().expect("bad file path");
             // errors will be sent up the stack when the Lua plugin processes the code
             // original way:
@@ -97,7 +96,7 @@ impl AssetLoader for FennelLoader {
             // info!("Loaded Fennel script: {:?}", src);
 
             // new way:
-            // use the static Lua context with Fennel already loaded to:
+            // use the static Lua context with Fennel already loaded:
             let script_key = format!("__FENNEL_SRC_{}", path);
 
             // TODO: error handling so we don't just go into poison mode when there's a compile error
