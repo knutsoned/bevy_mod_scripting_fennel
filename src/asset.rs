@@ -99,7 +99,7 @@ impl AssetLoader for FennelLoader {
             // use the static Lua context with Fennel already loaded:
             let script_key = format!("__FENNEL_SRC_{}", path);
 
-            // TODO: error handling so we don't just go into poison mode when there's a compile error
+            // return error we don't just go into poison mode when there's a compile error
             lua.globals().set(script_key.clone(), code)?;
 
             // - send the [u8] with the source code in the globals table to the fennel compiler
