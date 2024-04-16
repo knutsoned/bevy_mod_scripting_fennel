@@ -48,8 +48,8 @@ print(\"...created loader for bevy asset: {full_name}\")
             "
         );
 
-        // need to use a closure to be able to return a lua context at the end
-        let loader = || {
+        // need to use a block to be able to return a lua context at the end
+        {
             // load the source for the Fennel compiler
             let chunk = lua.load(FENNEL);
             let wrapped = chunk.into_function().expect("error loading Fennel compiler source");
@@ -62,8 +62,7 @@ print(\"...created loader for bevy asset: {full_name}\")
             // now run the custom loader code
             let new_chunk = lua.load(&runstr);
             new_chunk.exec().expect("error executing custom loader for Fennel compiler");
-        };
-        loader();
+        }
 
         // return a Lua context with Fennel already loaded
         lua.into()
